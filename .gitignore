@@ -86,3 +86,9 @@ typings/
 
 # DynamoDB Local files
 .dynamodb/
+
+# .env (for API_KEY)
+.env
+
+# .html (for API Key)
+/index.html
