@@ -16,12 +16,10 @@ function getWeatherByGeo(lat, lon, apiKey, units='imperial') {
   return getWeather(path)
 }
 
-
 async function getWeather(path) {
   try {
     const res = await fetch(path)
     const json = await res.json()
-    console.log(json) // remove later!
     const weatherData = {
       name : json.name,
       country : json.sys.country,

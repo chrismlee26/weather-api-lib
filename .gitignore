@@ -91,4 +91,5 @@ typings/
 .env
 
 # .html (for API Key)
-/index.html
+/config.js
+/index copy.html
