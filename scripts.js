@@ -1,14 +1,27 @@
+const linkPath = 'https://api.openweathermap.org/data/2.5/weather?'
+
 // Functions 
+function getWeatherByZip(zip, apiKey, units='imperial') {
+  const path = `${linkPath}zip=${zip}&appid=${apiKey}&units=${units}`
+  return getWeather(path)
+}
 
-async function getWeather(zip, apiKey, units='imperial') {
-  // const units = 'imperial'
-  const path = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apiKey}&units=${units}`
+function getWeatherByCity(city, apiKey, units='imperial') {
+  const path = `${linkPath}q=${city}&appid=${apiKey}&units=${units}`
+  return getWeather(path)
+}
 
-  // try/catch is similar to if/else. we lost error handling bc async
-  try {  //try to fetch path here, and return if it works
+function getWeatherByGeo(lat, lon, apiKey, units='imperial') {
+  const path = `${linkPath}lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`
+  return getWeather(path)
+}
+
+
+async function getWeather(path) {
+  try {
     const res = await fetch(path)
     const json = await res.json()
-    console.log(json)
+    console.log(json) // remove later!
     const weatherData = {
       name : json.name,
       country : json.sys.country,
@@ -21,9 +34,14 @@ async function getWeather(zip, apiKey, units='imperial') {
       description : json.weather[0].description 
     }
     return weatherData
-  } catch(err) { //if it fails, handle errors here
+  } catch(err) {
     return err
   }
 }
 
-export { getWeather };
+export { 
+  getWeatherByZip,
+  getWeatherByCity,
+  getWeatherByGeo,
+  getWeather
+};
