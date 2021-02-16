@@ -10,6 +10,8 @@ async function getWeather(zip, apiKey, units='imperial') {
     const json = await res.json()
     console.log(json)
     const weatherData = {
+      name : json.name,
+      country : json.sys.country,
       code : json.cod,
       coordinates : json.coord,
       temp : json.main.temp,
