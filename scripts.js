@@ -1,13 +1,17 @@
 // Functions 
 
-function getWeather(zip, apiKey, units='imperial') {
+async function getWeather(zip, apiKey, units='imperial') {
   // const units = 'imperial'
   const path = `https://api.openweathermap.org/data/2.5/weather?zip=${zip}&appid=${apiKey}&units=${units}`
-  
-  const resPromise = fetch(path) //variable to fetch with path
-  const jsonPromise = resPromise.then(res => res.json()) //fetch resolves promise and returns a result.json()
-  
-  return jsonPromise
+
+  // try/catch is similar to if/else. we lost error handling bc async
+  try {  //try to fetch path here, and return if it works
+    const res = await fetch(path)
+    const json = await res.json()
+    return json
+  } catch(err) { //if it fails, handle errors here
+    return err
+  }
 }
 
 export { getWeather };
