@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Ms Merriweather</title>
+    <title>Darkmode Neumorphic Weather Checker</title>
     <style>
       body, html {
         height: 100%;
@@ -99,12 +99,11 @@
       const feels_likeEl = document.getElementById('feels_like')
       const min_maxEl = document.getElementById('min_max')
       const formEl = document.getElementById('form')
-      const inputInput = document.getElementById('input-field') //Renamed input field from zip
-
+      const inputInput = document.getElementById('input-field')
       // Define event listeners
       formEl.addEventListener('submit', (e) => {
         e.preventDefault()
-        const input = inputInput.value // so this also got renamed, but how to get all the inputs??
+        const input = inputInput.value
         const apiKey = api__key
 
 
@@ -114,48 +113,68 @@
         // input === n && n % 1 !== 0
         // NaN instead of searching for a string??!
 
+        //   if (input % 1 === 0 && input.length === 5) { //Input is full int + 5 digits
+        //   return getWeatherByZip(input, apiKey) // weather by zip
+        //   .then((data) => {
+        //     temp.innerHTML = data.temp
+        //     desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
+        //     feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
+        //     min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
+        //   }).catch(err => console.log(err.message))
+        // } else if (typeof input === 'string' && !input.includes(',') || input instanceof String ) { //input is string or string instance & no commas
+        //   return getWeatherByCity(input, apiKey) // weather by city
+        //   .then((data) => {
+        //     temp.innerHTML = data.temp
+        //     desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
+        //     feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
+        //     min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
+        //   }).catch(err => console.log(err.message))
+        // } else if (input.indexOf(' ') >= 1 && input.includes(',')) { //has space and comma 
+        //   const splitInput = input.split(' ', 2); //split lat lon input into array of 2
+        //   const input1 = splitInput[0].replace(',', ''); //new var from array @ index 0 & remove comma
+        //   const input2 = splitInput[1]; // new variable from array @ index 1
+        //   return getWeatherByGeo(input1, input2, apiKey) //weather by geo coordinates
+        //   .then((data) => {
+        //     temp.innerHTML = data.temp
+        //     desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
+        //     feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
+        //     min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
+        //   }).catch(err => console.log(err.message))
+        // } else { // random edge case handling
+        //   desc.innerHTML = "ERROR, Please enter a 5 Digit Zip Code, City Name or Latitude, Longitude"
+        // }
+
+        function catchAllWeather(data) {
           if (input % 1 === 0 && input.length === 5) { //Input is full int + 5 digits
-          return getWeatherByZip(input, apiKey) // weather by zip
-          .then((data) => {
-            temp.innerHTML = data.temp
-            desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
-            feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
-            min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
-          }).catch(err => console.log(err.message))
-        } else if (typeof input === 'string' && !input.includes(',') || input instanceof String ) { //input is string or string instance & no commas
-          return getWeatherByCity(input, apiKey) // weather by city
-          .then((data) => {
-            temp.innerHTML = data.temp
-            desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
-            feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
-            min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
-          }).catch(err => console.log(err.message))
-        } else if (input.indexOf(' ') >= 0 && input.includes(',')) { //has space and comma 
-          const splitInput = input.split(' ', 2); //split lat lon input into array of 2
-          const input1 = splitInput[0].replace(',', ''); //new var from array @ index 0 & remove comma
-          const input2 = splitInput[1]; // new variable from array @ index 1
-          return getWeatherByGeo(input1, input2, apiKey) //weather by geo coordinates
-          .then((data) => {
-            temp.innerHTML = data.temp
-            desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
-            feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
-            min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
-          }).catch(err => console.log(err.message))
-        } else { // random edge case handling
+            return getWeatherByZip(input, apiKey) // weather by zip
+          } else if (typeof input === 'string' && !input.includes(',') || input instanceof String ) { //input is string or string instance & no commas
+            return getWeatherByCity(input, apiKey) // weather by city
+          } else if (input.indexOf(' ') >= 1 && input.includes(',')) { //has space and comma 
+            const splitInput = input.split(' ', 2); //split lat lon input into array of 2
+            const input1 = splitInput[0].replace(',', ''); //new var from array @ index 0 & remove comma
+            const input2 = splitInput[1]; // new variable from array @ index 1
+            return getWeatherByGeo(input1, input2, apiKey) //weather by geo coordinates
+          } else { // random edge case handling
           desc.innerHTML = "ERROR, Please enter a 5 Digit Zip Code, City Name or Latitude, Longitude"
+          }
         }
+
+          catchAllWeather().then((data) => {
+            temp.innerHTML = data.temp
+            desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
+            feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
+            min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
+          }).catch(err => console.log(err.message))
+
+
+
+
+
+
+
+
+
     })
-
-      //   getWeatherByZip(zip, apiKey) // do i need to repeat this code??????
-      //   .then((data) => {
-      //     console.log(data) // REMOVE LATER!!!
-      //     temp.innerHTML = data.temp
-      //     desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
-      //     feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
-      //     min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
-      //   }).catch(err => console.log(err.message))
-      // })
-
     </script>
   </body>
 </html>
