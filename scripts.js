@@ -8,7 +8,17 @@ async function getWeather(zip, apiKey, units='imperial') {
   try {  //try to fetch path here, and return if it works
     const res = await fetch(path)
     const json = await res.json()
-    return json
+    console.log(json)
+    const weatherData = {
+      code : json.cod,
+      coordinates : json.coord,
+      temp : json.main.temp,
+      feels_like : json.main.feels_like,
+      temp_min : json.main.temp_min,
+      temp_max : json.main.temp_max,
+      description : json.weather[0].description 
+    }
+    return weatherData
   } catch(err) { //if it fails, handle errors here
     return err
   }
