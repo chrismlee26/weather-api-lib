@@ -87,48 +87,6 @@
         <button type="submit">search</button>
       </form>
     </div>
-    <script type="module">
-      import { getWeather, getWeatherByZip, getWeatherByCity, getWeatherByGeo } from "./scripts.js" //remove getWeather after if not needed.
-      import { api__key } from "./config.js"
-      // ------------------------------------------------------
-      // Developer Code
-
-      // Get Element references
-      const tempEl = document.getElementById('temp')
-      const descEl = document.getElementById('desc')
-      const feels_likeEl = document.getElementById('feels_like')
-      const min_maxEl = document.getElementById('min_max')
-      const formEl = document.getElementById('form')
-      const inputInput = document.getElementById('input-field')
-      // Define event listeners
-      formEl.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const input = inputInput.value
-        const apiKey = api__key
-
-        function catchAllWeather(data) {
-          if (input % 1 === 0 && input.length === 5) { //Input is full int + 5 digits
-            return getWeatherByZip(input, apiKey) // weather by zip -------------------------------
-          } else if (typeof input === 'string' && !input.includes(',') || input instanceof String ) { //input is string or string instance & no commas
-            return getWeatherByCity(input, apiKey) // weather by city -----------------------------
-          } else if (input.indexOf(' ') >= 1 && input.includes(',')) { //has space and comma 
-            const splitInput = input.split(' ', 2); //split lat lon input into array of 2
-            const input1 = splitInput[0].replace(',', ''); //new var from array @ index 0 & remove comma
-            const input2 = splitInput[1]; // new variable from array @ index 1
-            return getWeatherByGeo(input1, input2, apiKey) //weather by geo coordinates -----------
-          } else { // random edge case handling
-          desc.innerHTML = "ERROR, Please enter a 5 Digit Zip Code, City Name or Latitude, Longitude"
-          }
-        }
-
-        catchAllWeather().then((data) => {
-          temp.innerHTML = data.temp
-          desc.innerHTML = "There's " + data.description + " in " + data.name + ", " + data.country
-          feels_like.innerHTML = "It feels like " + data.feels_like + " degrees"
-          min_max.innerHTML = "Today's high is " + data.temp_max + " and today's low is " + data.temp_min
-        }).catch(err => console.log(err.message))
-        
-    })
-    </script>
+    <script src="index.js" type="module"></script>
   </body>
 </html>
